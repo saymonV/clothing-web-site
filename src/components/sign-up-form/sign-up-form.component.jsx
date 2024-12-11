@@ -50,6 +50,7 @@ const SignUpForm = () => {
     }
   };
 
+  // Handles the change on each input field by name and set apropriate value
   const handleChange = (event) => {
     const { name, value } = event.target;
 

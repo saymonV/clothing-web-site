@@ -1,4 +1,6 @@
 import { initializeApp } from 'firebase/app';
+
+// Importing Google Authentication components
 import {
   getAuth,
   signInWithRedirect,
@@ -7,15 +9,18 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
 } from 'firebase/auth';
+
+// Firestore database components
 import { getFirestore, doc, getDoc, setDoc } from 'firebase/firestore';
 
+
 const firebaseConfig = {
-  apiKey: 'AIzaSyDDU4V-_QV3M8GyhC9SVieRTDM4dbiT0Yk',
-  authDomain: 'crwn-clothing-db-98d4d.firebaseapp.com',
-  projectId: 'crwn-clothing-db-98d4d',
-  storageBucket: 'crwn-clothing-db-98d4d.appspot.com',
-  messagingSenderId: '626766232035',
-  appId: '1:626766232035:web:506621582dab103a4d08d6',
+  apiKey: "AIzaSyByuepMpiItehEE3ILdV0mbGWvE17vrEuU",
+  authDomain: "crown-clothing-e465d.firebaseapp.com",
+  projectId: "crown-clothing-e465d",
+  storageBucket: "crown-clothing-e465d.firebasestorage.app",
+  messagingSenderId: "405377885375",
+  appId: "1:405377885375:web:0523f8cdb1c6605cae520a"
 };
 
 const firebaseApp = initializeApp(firebaseConfig);
@@ -32,22 +37,25 @@ export const signInWithGooglePopup = () =>
 export const signInWithGoogleRedirect = () =>
   signInWithRedirect(auth, googleProvider);
 
-export const db = getFirestore();
 
+
+export const db = getFirestore();
+// Takes the date from authentication service and creates a profile in database
 export const createUserDocumentFromAuth = async (
   userAuth,
   additionalInformation = {}
 ) => {
+  // Breaks in case there is not userAuth response
   if (!userAuth) return;
 
   const userDocRef = doc(db, 'users', userAuth.uid);
 
   const userSnapshot = await getDoc(userDocRef);
-
+  // Check if users exist in database
   if (!userSnapshot.exists()) {
     const { displayName, email } = userAuth;
     const createdAt = new Date();
-
+    // Creates a user profile in database
     try {
       await setDoc(userDocRef, {
         displayName,
@@ -59,7 +67,7 @@ export const createUserDocumentFromAuth = async (
       console.log('error creating the user', error.message);
     }
   }
-
+  
   return userDocRef;
 };
 

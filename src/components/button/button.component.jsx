@@ -5,6 +5,7 @@ const BUTTON_TYPE_CLASSES = {
   inverted: 'inverted',
 };
 
+// Display different style of button depending on button type
 const Button = ({ children, buttonType, ...otherProps }) => {
   return (
     <button
